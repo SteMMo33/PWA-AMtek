@@ -119,17 +119,13 @@ function renderForecast(card, data) {
  * @return {Object} The weather forecast, if the request fails, return null.
  */
 function getForecastFromNetwork(coords) {
-  /* Versione DarkSky via server locale
-  var server = "http://192.168.5.70"
-  var url = server + `/forecast/${coords}`;
-  */
 
   var coord = coords.split(',')
 
   // Current weather
   var url = `https://api.openweathermap.org/data/2.5/weather?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
   console.log("[getForecastFromNetwork] Fetch coords = '"+coords+"' - URL: "+url)
-  return fetch(url)
+  return null /* fetch(url)
       .then( (response) => {
         console.log("fetch .then > " + response)
         return response.json();
@@ -137,7 +133,7 @@ function getForecastFromNetwork(coords) {
       .catch( () => {
         console.error("fetch .catch")
         return null;
-      });
+      }); */
 }
 
 

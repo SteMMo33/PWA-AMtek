@@ -27,7 +27,7 @@
 
   <header class="header">
     <h1>
-      AMtek PWA Vending Machine SM
+      AMtek PWA Vending Machine
     </h1>
     <button id="butInstall" aria-label="Install" hidden></button>
     <button id="butRefresh" aria-label="Refresh"></button>
@@ -40,8 +40,7 @@
     </button>
 
     <div id="about" class="weather-card">
-      <b>My First Progressive Web App Codelab</b><br>
-      Based on <a href="https://g.co/codelabs/pwa">https://g.co/codelabs/pwa</a>.
+      <b>AMtek Vending Machine</b>
     </div>
 
     <div id="weather-template" class="weather-card" hidden>
@@ -109,63 +108,13 @@
             <span class="value"></span>°
           </div>
         </div>
-        <div class="oneday">
-          <div class="date"></div>
-          <div class="icon"></div>
-          <div class="temp-high">
-            <span class="value"></span>°
-          </div>
-          <div class="temp-low">
-            <span class="value"></span>°
-          </div>
-        </div>
-        <div class="oneday">
-          <div class="date"></div>
-          <div class="icon"></div>
-          <div class="temp-high">
-            <span class="value"></span>°
-          </div>
-          <div class="temp-low">
-            <span class="value"></span>°
-          </div>
-        </div>
-        <div class="oneday">
-          <div class="date"></div>
-          <div class="icon"></div>
-          <div class="temp-high">
-            <span class="value"></span>°
-          </div>
-          <div class="temp-low">
-            <span class="value"></span>°
-          </div>
-        </div>
-        <div class="oneday">
-          <div class="date"></div>
-          <div class="icon"></div>
-          <div class="temp-high">
-            <span class="value"></span>°
-          </div>
-          <div class="temp-low">
-            <span class="value"></span>°
-          </div>
-        </div>
-        <div class="oneday">
-          <div class="date"></div>
-          <div class="icon"></div>
-          <div class="temp-high">
-            <span class="value"></span>°
-          </div>
-          <div class="temp-low">
-            <span class="value"></span>°
-          </div>
-        </div>
       </div>
     </div>
   </main>
 
   <div id="addDialogContainer">
     <div class="dialog">
-      <div class="dialog-title">Add new city</div>
+      <div class="dialog-title">Dialog</div>
       <div class="dialog-body">
         <select id="selectCityToAdd" aria-label="City to add">
           <!--
@@ -174,11 +123,6 @@
           -->
           <option value="28.6472799,76.8130727">Dehli, India</option>
           <option value="-5.7759362,106.1174957">Jakarta, Indonesia</option>
-          <option value="51.5287718,-0.2416815">London, UK</option>
-          <option value="40.6976701,-74.2598666">New York, USA</option>
-          <option value="48.8589507,2.2770202">Paris, France</option>
-          <option value="-64.8251018,-63.496847">Port Lockroy, Antarctica</option>
-          <option value="37.757815,-122.5076401">San Francisco, USA</option>
           <option value="31.2243085,120.9162955">Shanghai, China</option>
           <option value="35.6735408,139.5703032">Tokyo, Japan</option>
           <option value="44.695333,10.241556">Felino, Italia</option>
@@ -192,14 +136,10 @@
   </div>
 
   <script src="/scripts/luxon-1.11.4.js" type="text/javascript"></script>
-
   <script src="/scripts/app.js" type="text/javascript"></script>
-  
-  <!-- CODELAB: Add the install script here -->
   <script src="/scripts/install.js"></script>
   
   <script>
-    // CODELAB: Register service worker.
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
