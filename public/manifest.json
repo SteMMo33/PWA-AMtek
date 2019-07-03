@@ -1,7 +1,7 @@
 {
-    "name": "Weather Name",
-    "short_name": "Weather ShortName",
-    "version": "0.9",
+    "name": "PWA AMtek",
+    "short_name": "AMtek",
+    "version": "0.1",
     "icons": [{
       "src": "/images/icons/icon-128x128.png",
         "sizes": "128x128",
