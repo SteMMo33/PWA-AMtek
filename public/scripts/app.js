@@ -4,7 +4,7 @@
  */
 'use strict';
 
-const weatherApp = {
+const thisApp = {
   selectedLocations: {},
   addDialogContainer: document.getElementById('addDialogContainer'),
 };
@@ -13,7 +13,7 @@ const weatherApp = {
  * Toggles the visibility of the add location dialog box.
  */
 function toggleAddDialog() {
-  weatherApp.addDialogContainer.classList.toggle('visible');
+  thisApp.addDialogContainer.classList.toggle('visible');
 }
 
 /**
@@ -34,8 +34,8 @@ function addLocation() {
     renderForecast(card, forecast);
   });
   // Save the updated list of selected cities.
-  weatherApp.selectedLocations[geo] = location;
-  saveLocationList(weatherApp.selectedLocations);
+  thisApp.selectedLocations[geo] = location;
+  saveLocationList(thisApp.selectedLocations);
 }
 
 /**
@@ -46,9 +46,9 @@ function addLocation() {
 function removeLocation(evt) {
   const parent = evt.srcElement.parentElement;
   parent.setAttribute('hidden', true);
-  if (weatherApp.selectedLocations[parent.id]) {
-    delete weatherApp.selectedLocations[parent.id];
-    saveLocationList(weatherApp.selectedLocations);
+  if (thisApp.selectedLocations[parent.id]) {
+    delete thisApp.selectedLocations[parent.id];
+    saveLocationList(thisApp.selectedLocations);
   }
 }
 
@@ -164,8 +164,8 @@ function getForecastCard(location) {
  * new data.
  */
 function updateData() {
-  Object.keys(weatherApp.selectedLocations).forEach((key) => {
-    const location = weatherApp.selectedLocations[key];
+  Object.keys(thisApp.selectedLocations).forEach((key) => {
+    const location = thisApp.selectedLocations[key];
     const card = getForecastCard(location);
 
     // CODELAB: Add code to call getForecastFromCache
@@ -223,7 +223,7 @@ function loadLocationList() {
  */
 function init() {
   // Get the location list, and update the UI.
-  //weatherApp.selectedLocations = loadLocationList();
+  //thisApp.selectedLocations = loadLocationList();
   //updateData();
 
   // Set up the event handlers for all of the buttons.
@@ -231,6 +231,8 @@ function init() {
   document.getElementById('butAdd').addEventListener('click', toggleAddDialog);
   document.getElementById('butDialogCancel').addEventListener('click', toggleAddDialog);
   document.getElementById('butDialogAdd').addEventListener('click', addLocation);
+
+  document.getElementById('status-text').innerHTML = "Tentativo connessione .."
 }
 
 init();

@@ -1,8 +1,7 @@
 # PWA AMtek
 
-
-L'intento è quello di creare una PWA in grado di comunicare con il web socket a bordo
-delle macchine AMtek
+L'intento è quello di creare una PWA in grado di comunicare con il websocket a bordo
+delle macchine AMtek.
 
 Funzionamento socket in JS
 
@@ -13,8 +12,6 @@ Collegamento in modalità ADM/APP con richiesta dei dati.
 Richiesta numero colonne.
 Richiesta info del prodotto X.
 
-
-
 No modalità offline o dati in cache
 
 ## Server
@@ -23,8 +20,7 @@ in modo da avere la root del sito = ./public
 
 
 
-
-## Mie prove
+## 
 * Ho creato il progetto seguendo le istruzioni del codelab.
 * Ho creato un progetto nella console di Firebase di Google.
 * Ho creato un hosting in cui ho fatto deploy del progetto da linea di comando.
@@ -33,7 +29,7 @@ in modo da avere la root del sito = ./public
 * L'app si è aggiornata sul cellulare senza notifica
 * Testare se l'app funziona anche su un server HTTPS diverso da quello di Google - soprattutto per l'aggiornamento della app
 
-
+Inserimento libreria js Materialize
 
 
 ## Firebase
