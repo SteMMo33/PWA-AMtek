@@ -1,6 +1,5 @@
 /*
  * @license
- * Your First PWA Codelab (https://g.co/codelabs/pwa)
  */
 'use strict';
 
@@ -70,7 +69,6 @@ function renderForecast(card, data) {
   const cardLastUpdatedElem = card.querySelector('.card-last-updated');
   const cardLastUpdated = cardLastUpdatedElem.textContent;
   const lastUpdated = parseInt(cardLastUpdated);
-
   
   // If the data on the element is newer, skip the update.
   // if (lastUpdated >= data.currently.time) {
@@ -80,30 +78,7 @@ function renderForecast(card, data) {
   }
   // cardLastUpdatedElem.textContent = data.currently.time;
   cardLastUpdatedElem.textContent = data.dt;
-
-  // Render the forecast data into the card.
-  card.querySelector('.description').textContent = data.weather[0].description; // data.currently.summary;
-  // if (data.minutely) card.querySelector('.d  escription').textContent += " -> " + data.minutely.summary;
-  const forecastFrom = luxon.DateTime
-      .fromSeconds(data.dt)
-      //.setZone(data.timezone)
-      .toFormat('DDDD t');
-  card.querySelector('.date').textContent = forecastFrom;
   
-  card.querySelector('.current .icon').className = `icon owm${data.weather[0].icon}`;
-  card.querySelector('.current .temperature .value').textContent = Math.round(data.main.temp);
-  card.querySelector('.current .humidity .value').textContent = Math.round(data.main.humidity);
-  card.querySelector('.current .wind .value').textContent = Math.round(data.wind.speed);
-  // card.querySelector('.current .wind .direction').textContent = Math.round(data.currently.windBearing);
-  
-  const sunrise = luxon.DateTime.fromSeconds(data.sys.sunrise)./*setZone(data.timezone).*/toFormat('t');
-  card.querySelector('.current .sunrise .value').textContent = sunrise;
-
-  const sunset = luxon.DateTime.fromSeconds(data.sys.sunset)./*setZone(data.timezone).*/toFormat('t');
-  card.querySelector('.current .sunset .value').textContent = sunset;
-
-  card.querySelector('.current .pressure .value').textContent = data.main.pressure;
-
   // If the loading spinner is still visible, remove it.
   const spinner = card.querySelector('.card-spinner');
   if (spinner) {
@@ -122,7 +97,6 @@ function getForecastFromNetwork(coords) {
 
   var coord = coords.split(',')
 
-  // Current weather
   var url = `https://api.openweathermap.org/data/2.5/weather?lat=${coord[0]}&lon=${coord[1]}&lang=it&units=metric&APPID=b82ec2f9c61a9f11fbe81ec3d5100227`
   console.log("[getForecastFromNetwork] Fetch coords = '"+coords+"' - URL: "+url)
   return null /* fetch(url)
@@ -159,27 +133,29 @@ function getForecastCard(location) {
   return newCard;
 }
 
+function openConfig()
+{
+  // Apre la finestra di configurazione (IP)
+  console.log("Config pressed")
+}
+
+
 /**
  * Gets the latest weather forecast data and updates each card with the
  * new data.
  */
 function updateData() {
+  /*
   Object.keys(thisApp.selectedLocations).forEach((key) => {
     const location = thisApp.selectedLocations[key];
     const card = getForecastCard(location);
-
-    // CODELAB: Add code to call getForecastFromCache
-    getForecastFromCache(location.geo)
-      .then( (forecast) => {
-        renderForecast(card, forecast);
-      });
 
     // Get the forecast data from the network.
     getForecastFromNetwork(location.geo)
         .then( (forecast) => {
           renderForecast(card, forecast);
     });
-  })
+  })*/
 }
 
 
@@ -222,12 +198,10 @@ function loadLocationList() {
  * renders the initial data.
  */
 function init() {
-  // Get the location list, and update the UI.
-  //thisApp.selectedLocations = loadLocationList();
-  //updateData();
-
+  console.log("init()");
   // Set up the event handlers for all of the buttons.
   document.getElementById('butRefresh').addEventListener('click', updateData);
+  document.getElementById('butConfig').addEventListener('click', openConfig);
   document.getElementById('butAdd').addEventListener('click', toggleAddDialog);
   document.getElementById('butDialogCancel').addEventListener('click', toggleAddDialog);
   document.getElementById('butDialogAdd').addEventListener('click', addLocation);

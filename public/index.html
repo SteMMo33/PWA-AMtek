@@ -38,6 +38,7 @@
     </h1>
     <button id="butInstall" aria-label="Install" hidden></button>
     <button id="butRefresh" aria-label="Refresh"></button>
+    <button id="butConfig" aria-label="Config"></button>
   </header>
 
   <main class="main">
@@ -111,19 +112,6 @@
           </div>
       </div>
       </div>
-      <div class="future">
-        <div class="oneday">
-          <div class="date"></div>
-          <div class="icon"></div>
-          <div class="temp-high">
-            <span class="value">QQ</span>°
-          </div>
-          <div class="temp-low">
-            <span class="value">QQ</span>°
-          </div>
-        </div>
-      </div>
-      </div>
       <div class="col s6">
         Seconda colonna
       </div>
@@ -167,6 +155,17 @@
       </div>
     </div>
 
+    <!-- Modal Structure -->
+    <div id="modalConfig" class="modal">
+      <div class="modal-content">
+        <h4>configurazione:</h4>
+        <p>IP: <input name="ip" value="0.0.0.0"></p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Annulla</a>
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+      </div>
+    </div>
 
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="/__/firebase/6.2.4/firebase-app.js"></script>
@@ -190,14 +189,20 @@
 
   <script>
     if ('serviceWorker' in navigator) {
+      console.log("ServiceWorker supported!")
       window.addEventListener('load', () => {
+        console.log("Registering serviceWorker..")
         navigator.serviceWorker.register('/service-worker.js')
           .then((reg) => {
             console.log('Service worker registered.', reg);
           });
+
+          navigator.serviceWorker.addEventListener('message', function(event) {
+            console.log("[index] onMessage")
+          }
       });
     }
-    else console.log("No support for serviceWorker");
+    else console.error("No support for serviceWorker");
   </script>
 
 </body>

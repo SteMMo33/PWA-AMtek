@@ -1,6 +1,6 @@
 {
-    "name": "PWA AMtek",
-    "short_name": "AMtek",
+    "name": "PWA AMtek VM",
+    "short_name": "AMtek VM",
     "version": "0.1",
     "icons": [{
       "src": "/images/icons/icon-128x128.png",

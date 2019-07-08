@@ -2,26 +2,11 @@
  * @license
  * Your First PWA Codelab (https://g.co/codelabs/pwa)
  * Copyright 2019 Google Inc. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License
  */
 'use strict';
 
-// CODELAB: Update cache names any time any of the cached files change.
-const CACHE_NAME = 'static-cache-v3';
-const DATA_CACHE_NAME = 'data-cache-v2';
-
-// CODELAB: Add list of files to cache here.
+const CACHE_NAME = 'static-cache-v1';
+const DATA_CACHE_NAME = 'data-cache-v1';
 const FILES_TO_CACHE = [
   // Se non abbiamo cache .. '/offline.html'
   '/',
@@ -36,26 +21,33 @@ const FILES_TO_CACHE = [
   '/images/install.svg',
 ];
 
+const thisApp = {
+  ws : {}  // Websocket
+}
+
+
+// - Install
 self.addEventListener('install', (evt) => {
   console.log('[ServiceWorker] Install');
 
-  // CODELAB: Precache static resources here.
+  // Precache static resources here.
   evt.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('[ServiceWorker] Pre-caching offline page');
       return cache.addAll(FILES_TO_CACHE);
     })
   );
-
   self.skipWaiting();
 });
 
 
+
+// - Activate
 self.addEventListener('activate', (evt) => {
   console.log('[ServiceWorker] Activate');
 
-  // CODELAB: Remove previous cached data from disk.
-  evt.waitUntil(
+  //evt.waitUntil(
+    /* tolgo per il momento la cache
     caches.keys().then((keyList) => {
       return Promise.all(keyList.map((key) => {
         if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
@@ -63,14 +55,35 @@ self.addEventListener('activate', (evt) => {
           return caches.delete(key);
         }
       }));
+    }) */
+  //)
+
+  console.log("Pre socket ..")
+    thisApp.ws = new WebSocket('ws://192.168.5.50:7681');
+    // Connection opened
+    thisApp.ws.addEventListener('open', function (event) {
+      console.log("ws opened")
+      thisApp.ws.send('Hello Server!');
+      thisApp.ws.send("{ \"cmd\": \"product\"");
+      self.postMessage({opcode:"wsopen"})
     })
-  );
+    // Listen for messages
+    thisApp.ws.addEventListener('message', function (event) {
+      console.log('Message from server ', event.data);
+    })
+    thisApp.ws.addEventListener('close', function (event) {
+      console.log("ws closed");
+    }) 
+  console.log("Post socket ..")
+
   self.clients.claim();
 });
 
+
+// - Fetch
 self.addEventListener('fetch', (evt) => {
   console.log('[ServiceWorker] Fetch ', evt.request.url);
-  console.log('[ServiceWorker] Mode ', evt.request.mode);
+  console.log(evt);
 
   // CODELAB: Add fetch event handler here.
   /* Original code
@@ -89,8 +102,7 @@ self.addEventListener('fetch', (evt) => {
   ); */
   
   //SM Nuova gestione con il recupero dei dati in cache
-  // if (evt.request.url.includes('/forecast/')) 
-  if (evt.request.url.includes('openweathermap')) 
+  /* if (evt.request.url.includes('openweathermap')) 
   {
     console.log('[Service Worker] Fetch (data)', evt.request.url);
     evt.respondWith(
@@ -108,14 +120,43 @@ self.addEventListener('fetch', (evt) => {
               });
         }));
     return;
-  }
-  evt.respondWith(
+  } */
+  //evt.respondWith(
+    /*
       caches.open(CACHE_NAME).then((cache) => {
         return cache.match(evt.request)
             .then((response) => {
               console.log("caches open match")
               return response || fetch(evt.request);
             });
-      })
-  );
+      }) */
+
+
+      // Test con JSON
+    //  "{ \"name\":\"Prod name\", \"desc\":\"Description text\", \"price\":12.50 }"
+  //);
+
+  var resource = '"{ \"name\":\"Prod name\", \"desc\":\"Description text\", \"price\":12.50 }"';
+  return new Response( resource,  { headers: { 'Content-Type': 'text/json' }} )
 });
+
+
+// - Message
+self.addEventListener('message', function(event) {
+  var promise = self.clients.matchAll()
+  .then(function(clientList) {
+    var senderID = event.source.id;
+    clientList.forEach(function(client) {
+      if (client.id === senderID) {
+        return;
+      }
+      client.postMessage({
+        client: senderID,
+        message: event.data
+      });
+    });
+  });
+  if (event.waitUntil) {
+    event.waitUntil(promise);
+  }
+})
