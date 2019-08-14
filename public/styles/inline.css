@@ -174,65 +174,6 @@ body {
 .icon.clear-day {
   background-image: url("/images/clear-day.svg");
 }
-.icon.owm01d {
-  background-image: url("/images/clear-day.svg");
-}
-
-.icon.clear-night {
-  background-image: url("/images/clear-night.svg");
-}
-.icon.owm01n {
-  background-image: url("/images/clear-night.svg");
-}
-
-.icon.rain {
-  background-image: url("/images/rain.svg");
-}
-.icon.owm10d {
-  background-image: url("/images/rain.svg");
-}
-
-.icon.snow {
-  background-image: url("/images/snow.svg");
-}
-
-.icon.sleet {
-  background-image: url("/images/sleet.svg");
-}
-
-.icon.wind {
-  background-image: url("/images/wind.svg");
-}
-
-.icon.fog {
-  background-image: url("/images/fog.svg");
-}
-
-.icon.cloudy {
-  background-image: url("/images/cloudy.svg");
-}
-.icon.owm04d {
-  background-image: url("/images/cloudy.svg");
-}
-
-.icon.partly-cloudy-day {
-  background-image: url("/images/partly-cloudy-day.svg");
-}
-.icon.owm02d {
-  background-image: url("/images/partly-cloudy-day.svg");
-}
-
-.icon.partly-cloudy-night {
-  background-image: url("/images/partly-cloudy-night.svg");
-}
-
-.icon.hail {
-  background-image: url("/images/hail.svg");
-}
-
-.icon.thunderstorm {
-  background-image: url("/images/thunderstorm.svg");
-}
 
 .icon.tornado {
   background-image: url("/images/tornado.svg");
@@ -259,6 +200,19 @@ body {
   right: 1rem;
   width: 56px;
   z-index: 1000;
+}
+
+.main .fab2 {
+  background-color: chocolate;
+  border-radius: 50%;
+  bottom: 1rem;
+  height: 56px;
+  padding: 12px;
+  position: fixed;
+  right: 6rem;
+  width: 56px;
+  z-index: 1000;
+  font-size: 1.5rem;
 }
 
 .main .fab .icon {

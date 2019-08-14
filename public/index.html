@@ -13,8 +13,8 @@
   <link rel="stylesheet" type="text/css" href="/styles/materialize.min.css">
   <style>
     .blue-gray { background-color: grey }
-    .costoProdotto { font-size: 1.3em; font-weight: 700 }
-    .nomeProdotto { font-size: 1.3em; font-weight: 700 }
+    .costoProdotto { font-size: 1.5em; font-weight: 700 }
+    #nomeProdotto { font-size: 1.5em; font-weight: 700 }
   </style>
 
   <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
@@ -34,7 +34,7 @@
 
   <header class="header">
     <h1>
-      AMtek PWA Vending Machine
+      AMtek PWA VM
     </h1>
     <button id="butInstall" aria-label="Install" hidden></button>
     <button id="butRefresh" aria-label="Refresh"></button>
@@ -47,12 +47,16 @@
       <span class="icon add"></span>
     </button>
 
+		<button id="butAddEl" class="fab2" aria-label="Add">
+      <span class="icon">A</span>
+    </button>
+
     <div id="about" class="weather-card">
       <b>Nome Farmacia - Vending Machine</b>
     </div>
 
     <div class="row">
-      <div class="col s12 m8">
+      <div class="col s12 m6">
         <div class="card blue-gray darken-1">
           <div class="card-content white-text">
             <span class="card-title">Status</span>
@@ -73,42 +77,41 @@
   </div> -->
 
   <div id="products_container" style="background-color:chartreuse">
-    <div id="product-template" class="row" style="background-color: cadetblue; margin: 5px;">
-      <div class="col s6 m5" style="background-color:cornflowerblue; margin: 5px">
+		<div id="row" class="row" style="background-color: cadetblue; margin: 5px;">
+			
+    <div id="product-template" class="col s6" style="background-color:cornflowerblue;">
 
-      <div class="card-last-updated" hidden></div>
-      <div class="description">&nbsp;</div>
+			<div class="idProduct" hidden>321</div>
+			<div class="idColonna" hidden>123</div>
+			
+      <div id="nomeProdotto" class="description">NOME BREVE</div>
       <div class="current" style="background-color: violet">
         
-        <div class="visual">
+        <div class="visual" style="background-color: dimgray">
           <div class="icon"></div>
           <div class="temperature">
-            <span class="value"></span><span class="scale">°C</span>
+						<span class="value">DESC</span>
+						<span class="scale"></span>
           </div>
         </div>
 
         <div class="description">
           <div class="humidity">
-            <span class="label">Humidity:</span>
-            <span class="value"></span><span class="scale">%</span>
+            <span class="label">Numero:</span>
+						<span class="value">6</span>
+						<span class="scale"></span>
           </div>
-          <div class="wind">
-            <span class="label">Wind:</span>
-            <span class="value"></span>
-            <span class="scale">mph</span>
-            <!-- <span class="direction"></span>° -->
-          </div>
-          <div class="costo">
+          <div class="costoProdotto">
             <span class="label">&euro;</span>
             <span class="value">5.00</span>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col s6" style="background-color:darksalmon; margin: 5px">
-      Seconda colonna
-    </div>
-</div>
+		</div>
+		
+		</div>
+	</div>
+
 </main>
 
   <div id="addDialogContainer">
@@ -133,14 +136,15 @@
   </div>
 
     <!-- Modal Trigger -->
-    <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Show Modal</a>
+    <a class="waves-effect waves-light btn modal-trigger" href="#modalAcquisto">Show Modal</a>
 
     <!-- Modal Structure -->
-    <div id="modal1" class="modal">
+    <div id="modalAcquisto" class="modal">
       <div class="modal-content">
         <h4>Acquisto prodotto</h4>
-        <p>Prodotto: <span class="nomeProdotto">Nome Prod</span></p>
-        <p>Prezzo: <span class="costoProdotto">&euro; 5,00</span></p>
+        <p>Prodotto: <span class="nomeProdotto" id='modalNomeProdotto'>Nome Prod</span></p>
+        <p>Prezzo: <span class="costoProdotto" id='modalPrezzoProdotto'>&euro; 5,00</span></p>
+        <p>Colonna: <span class="colonnaProdotto" id='modalColonnaProdotto'>**</span></p>
       </div>
       <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-light btn-flat">Annulla</a>
@@ -148,15 +152,16 @@
       </div>
     </div>
 
-    <!-- Modal Structure -->
+    <!-- Modal Structure per pagina configurazione -->
     <div id="modalConfig" class="modal">
       <div class="modal-content">
         <h4>Configurazione server:</h4>
-        <p>IP: <input id="ip" value="0.0.0.0"></p>
+        <p>indirizzo IP: <input id="ip" value="0.0.0.0"></p>
+        <p>Porta: <input id="serverPort" value="8999"></p>
       </div>
       <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-light btn-flat">Annulla</a>
-        <a href="#!" onclick="setIp(document.getElementById('ip').value)" class="modal-close waves-effect waves-green btn-flat">OK</a>
+        <a href="#!" onclick="setIp(document.getElementById('ip').value, document.getElementById('serverPort').value)" class="modal-close waves-effect waves-green btn-flat">OK</a>
       </div>
     </div>
 

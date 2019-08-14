@@ -1,14 +1,16 @@
 /*
  * @license
- * Your First PWA Codelab (https://g.co/codelabs/pwa)
- * Copyright 2019 Google Inc. All rights reserved.
+ * Service worker
+ * Copyright 2019 SM. All rights reserved.
+ * 
+ * Come si scambiano i dati tra app.js e worker ??
  */
 'use strict';
 
 const CACHE_NAME = 'static-cache-v1';
 const DATA_CACHE_NAME = 'data-cache-v1';
 const FILES_TO_CACHE = [
-  // Se non abbiamo cache .. '/offline.html'
+  // Se non abbiamo cache inserire: '/offline.html'
   '/',
   '/index.html',
   '/scripts/app.js',
@@ -42,7 +44,11 @@ self.addEventListener('install', (evt) => {
 
 
 
-// - Activate
+/**
+ * @function - Activate
+ * @brief Sull'attivazione viene creato il websocket
+ *  
+ **/ 
 self.addEventListener('activate', (evt) => {
   console.log('[ServiceWorker] Activate');
 
@@ -58,29 +64,35 @@ self.addEventListener('activate', (evt) => {
     }) */
   //)
 
-  console.log("Pre socket ..")
-    thisApp.ws = new WebSocket('ws://192.168.5.50:7681');
-    // Connection opened
-    thisApp.ws.addEventListener('open', function (event) {
-      console.log("ws opened")
-      thisApp.ws.send('Hello Server!');
-      thisApp.ws.send("{ \"cmd\": \"product\"");
-      self.postMessage({opcode:"wsopen"})
-    })
-    // Listen for messages
-    thisApp.ws.addEventListener('message', function (event) {
-      console.log('Message from server ', event.data);
-    })
-    thisApp.ws.addEventListener('close', function (event) {
-      console.log("ws closed");
-    }) 
-  console.log("Post socket ..")
-
-  self.clients.claim();
+  console.log("Create socket to ")
+  thisApp.ws = new WebSocket('ws://192.168.5.50:7681');
+	
+	// Connection opened - ws event
+  thisApp.ws.addEventListener('open', function (event) {
+    console.log("#ws opened")
+    thisApp.ws.send('Hello Server!');
+    thisApp.ws.send("{ \"cmd\": \"product\"");
+    self.postMessage({opcode:"wsopen"})
+	})
+	
+  // Listen for messages - ws event
+  thisApp.ws.addEventListener('message', function (event) {
+    console.log('#ws message from server ', event.data);
+	})
+	
+	// close ws event
+  thisApp.ws.addEventListener('close', function (event) {
+		console.log("#ws closed")
+		console.log(event)
+	}) 
+	
+	console.log(".. after socket")
+	
+  //? self.clients.claim();
 });
 
 
-// - Fetch
+// - Fetch function
 self.addEventListener('fetch', (evt) => {
   console.log('[ServiceWorker] Fetch ', evt.request.url);
   console.log(evt);
@@ -141,21 +153,24 @@ self.addEventListener('fetch', (evt) => {
 });
 
 
-// - Message
+// - Message - invio di un messaggio ai clients
 self.addEventListener('message', function(event) {
-  var promise = self.clients.matchAll()
-  .then(function(clientList) {
-    var senderID = event.source.id;
-    clientList.forEach(function(client) {
-      if (client.id === senderID) {
-        return;
-      }
-      client.postMessage({
-        client: senderID,
-        message: event.data
-      });
-    });
-  });
+  var promise = self.clients.matchAll().then(
+		function(clientList) {
+    	var senderID = event.source.id;
+    	clientList.forEach(
+				function(client) {
+      		if (client.id === senderID) {
+        		return;
+      		}
+      		client.postMessage({
+        		client: senderID,
+        		message: event.data
+      		});
+				}
+			);
+		}
+	);
   if (event.waitUntil) {
     event.waitUntil(promise);
   }

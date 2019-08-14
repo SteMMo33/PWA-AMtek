@@ -212,18 +212,87 @@ function init() {
   document.getElementById('butRefresh').addEventListener('click', updateData);
   // Gestito da Modal document.getElementById('butConfig').addEventListener('click', openConfig);
   document.getElementById('butAdd').addEventListener('click', toggleAddDialog);
+  document.getElementById('butAddEl').addEventListener('click', addProduct);
 
   document.getElementById('butDialogCancel').addEventListener('click', toggleAddDialog);
   document.getElementById('butDialogAdd').addEventListener('click', addLocation);
 
-  document.getElementById('status-text').innerHTML = "Tentativo connessione .."
+	document.getElementById('status-text').innerHTML = "Tentativo connessione .."
+	document.getElementById('product-template').addEventListener('click', showAcquisto)
+
+	// Valori iniziali salvati
+	thisApp.serverIp = localStorage.getItem('serverIp')
+	document.getElementById("ip").value = thisApp.serverIp
+	//
+	thisApp.serverPort = localStorage.getItem('serverPort')
+	document.getElementById("serverPort").value = thisApp.serverPort
+
+	thisApp.statusLabel.innerHTML = "Server IP: "+thisApp.serverIp+":"+thisApp.serverPort
 }
 
-function setIp(newIp){
-	console.log("server IP: "+newIp)
+
+function setIp(newIp, newPort){
+	console.log("server IP: "+newIp+":"+newPort)
+
 	thisApp.serverIp = newIp
-	thisApp.statusLabel.innerHTML = "Server IP: "+newIp
+  localStorage.setItem('serverIp', newIp)
+
+	thisApp.serverPort = newPort
+  localStorage.setItem('serverPort', newPort)
+
+	thisApp.statusLabel.innerHTML = "Server IP: "+newIp+":"+newPort
+}
+
+// Duplica il blocco di un prodotto
+function addProduct() {
+	const newProd = document.getElementById('product-template').cloneNode(true);
+	
+  newProd.querySelector('.costoProdotto .value').textContent = "10.00";
+  newProd.querySelector('#nomeProdotto').textContent = "NUOVO PRODOTTO";
+  newProd.querySelector('.idColonna').textContent = "127";
+  newProd.setAttribute('id', 555);
+  // newProd.querySelector('.remove-city').addEventListener('click', removeLocation);
+	
+	//document.querySelector('#products_container').appendChild(newProd);
+	document.querySelector('#row').appendChild(newProd);
+	
+	// newProd.removeAttribute('hidden');
 }
 
 
+function showAcquisto(ev){
+	// Cerca i dati del prodotto
+	console.log(ev.target)
+	var trg = ev.target
+	trg = trg.parentElement
+	trg = trg.parentElement
+
+	var elNome = trg.querySelector('#nomeProdotto')
+	if (elNome==null){
+		trg = trg.parentElement
+		console.log(trg)
+		elNome = trg.querySelector('#nomeProdotto')
+	}
+	console.log(elNome)
+
+	var elPrezzo = trg.querySelector('.costoProdotto')
+	if (!elPrezzo){
+		trg = trg.parentElement
+		elPrezzo = trg.querySelector('.costoProdotto')
+	}
+
+	var elColonna = trg.querySelector('.idColonna')
+
+	// Riempie la modal con i dati
+	var elem = document.querySelector('#modalAcquisto')
+	elem.querySelector('#modalNomeProdotto').textContent = elNome.textContent
+	elem.querySelector('#modalPrezzoProdotto').textContent = elPrezzo.textContent
+	elem.querySelector('#modalColonnaProdotto').textContent = elColonna.textContent
+	// Mostra modal
+	var instance = M.Modal.getInstance(elem)
+	instance.open()
+}
+
+
+// Partenza del tutto !
 init();
