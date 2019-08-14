@@ -6,7 +6,11 @@
 const thisApp = {
   selectedLocations: {},
   addDialogContainer: document.getElementById('addDialogContainer'),
+	modalConfig: document.getElementById('modalConfig'),
+	statusLabel: document.getElementById('status-text'),
+	serverIp: ""
 };
+
 
 /**
  * Toggles the visibility of the add location dialog box.
@@ -123,13 +127,15 @@ function getForecastCard(location) {
   const card = document.getElementById(id);
   if (card) {
     return card;
-  }
+	}
+	/*
   const newCard = document.getElementById('weather-template').cloneNode(true);
   newCard.querySelector('.location').textContent = location.label;
   newCard.setAttribute('id', id);
   newCard.querySelector('.remove-city').addEventListener('click', removeLocation);
   document.querySelector('main').appendChild(newCard);
-  newCard.removeAttribute('hidden');
+	newCard.removeAttribute('hidden');
+	*/
   return newCard;
 }
 
@@ -175,7 +181,8 @@ function saveLocationList(locations) {
  * @return {Array}
  */
 function loadLocationList() {
-  // Guarda in LocalStorage se ci sono posti salvati
+	// Guarda in LocalStorage se ci sono posti salvati
+	/*
   let locations = localStorage.getItem('locationList');
   if (locations) {
     try {
@@ -190,8 +197,10 @@ function loadLocationList() {
     locations = {};
     locations[key] = {label: 'New York City', geo: '40.7720232,-73.9732319'};
   }
-  return locations;
+	return locations;
+	*/
 }
+
 
 /**
  * Initialize the app, gets the list of locations from local storage, then
@@ -201,12 +210,20 @@ function init() {
   console.log("init()");
   // Set up the event handlers for all of the buttons.
   document.getElementById('butRefresh').addEventListener('click', updateData);
-  document.getElementById('butConfig').addEventListener('click', openConfig);
+  // Gestito da Modal document.getElementById('butConfig').addEventListener('click', openConfig);
   document.getElementById('butAdd').addEventListener('click', toggleAddDialog);
+
   document.getElementById('butDialogCancel').addEventListener('click', toggleAddDialog);
   document.getElementById('butDialogAdd').addEventListener('click', addLocation);
 
   document.getElementById('status-text').innerHTML = "Tentativo connessione .."
 }
+
+function setIp(newIp){
+	console.log("server IP: "+newIp)
+	thisApp.serverIp = newIp
+	thisApp.statusLabel.innerHTML = "Server IP: "+newIp
+}
+
 
 init();

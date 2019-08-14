@@ -38,7 +38,7 @@
     </h1>
     <button id="butInstall" aria-label="Install" hidden></button>
     <button id="butRefresh" aria-label="Refresh"></button>
-    <button id="butConfig" aria-label="Config"></button>
+    <button id="butConfig" aria-label="Config" class="btn modal-trigger" data-target="modalConfig"></button>
   </header>
 
   <main class="main">
@@ -48,7 +48,7 @@
     </button>
 
     <div id="about" class="weather-card">
-      <b>Nome Farmacia Vending Machine</b>
+      <b>Nome Farmacia - Vending Machine</b>
     </div>
 
     <div class="row">
@@ -66,27 +66,27 @@
       </div>
     </div>
 
-    <div id="product-template" class="row">
-        <div class="col s6 m5">
-      <!-- <div class="card-spinner">
-        <svg viewBox="0 0 32 32" width="32" height="32">
-          <circle cx="16" cy="16" r="14" fill="none"></circle>
-        </svg>
-      </div> -->
+  <!-- <div class="card-spinner">
+    <svg viewBox="0 0 32 32" width="32" height="32">
+      <circle cx="16" cy="16" r="14" fill="none"></circle>
+    </svg>
+  </div> -->
 
-      <button class="remove-city">&times;</button>
-      <div class="city-key" hidden></div>
+  <div id="products_container" style="background-color:chartreuse">
+    <div id="product-template" class="row" style="background-color: cadetblue; margin: 5px;">
+      <div class="col s6 m5" style="background-color:cornflowerblue; margin: 5px">
+
       <div class="card-last-updated" hidden></div>
-      <div class="location">&nbsp;</div>
-      <div class="date">&nbsp;</div>
       <div class="description">&nbsp;</div>
-      <div class="current">
+      <div class="current" style="background-color: violet">
+        
         <div class="visual">
           <div class="icon"></div>
           <div class="temperature">
             <span class="value"></span><span class="scale">°C</span>
           </div>
         </div>
+
         <div class="description">
           <div class="humidity">
             <span class="label">Humidity:</span>
@@ -98,25 +98,18 @@
             <span class="scale">mph</span>
             <!-- <span class="direction"></span>° -->
           </div>
-          <div class="sunrise">
-            <span class="label">Sunrise:</span>
-            <span class="value"></span>
+          <div class="costo">
+            <span class="label">&euro;</span>
+            <span class="value">5.00</span>
           </div>
-          <div class="sunset">
-              <span class="label">Sunset:</span>
-              <span class="value"></span>
-          </div>
-          <div class="pressure">
-            <span class="label">Pressure:</span>
-            <span class="value"></span> hPa
-          </div>
-      </div>
-      </div>
-      <div class="col s6">
-        Seconda colonna
+        </div>
       </div>
     </div>
-  </main>
+    <div class="col s6" style="background-color:darksalmon; margin: 5px">
+      Seconda colonna
+    </div>
+</div>
+</main>
 
   <div id="addDialogContainer">
     <div class="dialog">
@@ -140,7 +133,7 @@
   </div>
 
     <!-- Modal Trigger -->
-    <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+    <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Show Modal</a>
 
     <!-- Modal Structure -->
     <div id="modal1" class="modal">
@@ -158,12 +151,12 @@
     <!-- Modal Structure -->
     <div id="modalConfig" class="modal">
       <div class="modal-content">
-        <h4>configurazione:</h4>
-        <p>IP: <input name="ip" value="0.0.0.0"></p>
+        <h4>Configurazione server:</h4>
+        <p>IP: <input id="ip" value="0.0.0.0"></p>
       </div>
       <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-light btn-flat">Annulla</a>
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+        <a href="#!" onclick="setIp(document.getElementById('ip').value)" class="modal-close waves-effect waves-green btn-flat">OK</a>
       </div>
     </div>
 
@@ -192,15 +185,16 @@
       console.log("ServiceWorker supported!")
       window.addEventListener('load', () => {
         console.log("Registering serviceWorker..")
+
         navigator.serviceWorker.register('/service-worker.js')
-          .then((reg) => {
+          .then( (reg) => {
             console.log('Service worker registered.', reg);
-          });
+          })
 
           navigator.serviceWorker.addEventListener('message', function(event) {
             console.log("[index] onMessage")
-          }
-      });
+          })
+      })
     }
     else console.error("No support for serviceWorker");
   </script>
