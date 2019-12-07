@@ -1,4 +1,4 @@
-# PWA AMtek
+# PWA AMtek VM
 
 L'intento è quello di creare una PWA in grado di comunicare con il websocket a bordo
 delle macchine AMtek.
@@ -35,7 +35,12 @@ Indirizzo: https://pwa-amtek.web.app/
 
 Inserimento libreria js Materialize
 
+## Variabili
 
+### manifest.json
+'name' - nome che appare nella splash
+
+"short_name" - nome che appare sotto l'icona dell'applicazione
 ## Firebase
 
 Comando per il deploy:

@@ -8,7 +8,7 @@ const thisApp = {
   addDialogContainer: document.getElementById('addDialogContainer'),
 	modalConfig: document.getElementById('modalConfig'),
 	statusLabel: document.getElementById('status-text'),
-	serverIp: ""
+	serverIp: "192.168.0.1"
 };
 
 
@@ -202,9 +202,9 @@ function loadLocationList() {
 }
 
 
+
 /**
- * Initialize the app, gets the list of locations from local storage, then
- * renders the initial data.
+ * Initialize the app, imposta i listeners per i bottoni.
  */
 function init() {
   console.log("init()");
@@ -227,10 +227,14 @@ function init() {
 	thisApp.serverPort = localStorage.getItem('serverPort')
 	document.getElementById("serverPort").value = thisApp.serverPort
 
-	thisApp.statusLabel.innerHTML = "Server IP: "+thisApp.serverIp+":"+thisApp.serverPort
+  thisApp.statusLabel.innerHTML = "Server IP: "+thisApp.serverIp+":"+thisApp.serverPort
 }
 
-
+/**
+ * Imposta e salva le nuove varibili di connessione
+ * @param {in} newIp Nuovo indirizzo IP
+ * @param {in} newPort Nuova porta
+ */
 function setIp(newIp, newPort){
 	console.log("server IP: "+newIp+":"+newPort)
 
@@ -243,16 +247,21 @@ function setIp(newIp, newPort){
 	thisApp.statusLabel.innerHTML = "Server IP: "+newIp+":"+newPort
 }
 
+
 // Duplica il blocco di un prodotto
 function addProduct() {
 	const newProd = document.getElementById('product-template').cloneNode(true);
-	
-  newProd.querySelector('.costoProdotto .value').textContent = "10.00";
-  newProd.querySelector('#nomeProdotto').textContent = "NUOVO PRODOTTO";
+  
+  var prezzo = Math.random()*20
+  prezzo = prezzo.toFixed(2)
+  newProd.querySelector('.costoProdotto .value').textContent = prezzo;
+  newProd.querySelector('#nomeProdotto').textContent = "PRODOTTO N";
   newProd.querySelector('.idColonna').textContent = "127";
   newProd.setAttribute('id', 555);
   // newProd.querySelector('.remove-city').addEventListener('click', removeLocation);
-	
+
+  newProd.addEventListener('click', showAcquisto)
+
 	//document.querySelector('#products_container').appendChild(newProd);
 	document.querySelector('#row').appendChild(newProd);
 	
@@ -260,6 +269,7 @@ function addProduct() {
 }
 
 
+// Entro ev ci sono i dati dell'elemento cliccato
 function showAcquisto(ev){
 	// Cerca i dati del prodotto
 	console.log(ev.target)
@@ -271,14 +281,14 @@ function showAcquisto(ev){
 	if (elNome==null){
 		trg = trg.parentElement
 		console.log(trg)
-		elNome = trg.querySelector('#nomeProdotto')
+    elNome = trg.querySelector('#nomeProdotto')
 	}
 	console.log(elNome)
 
 	var elPrezzo = trg.querySelector('.costoProdotto')
 	if (!elPrezzo){
 		trg = trg.parentElement
-		elPrezzo = trg.querySelector('.costoProdotto')
+    elPrezzo = trg.querySelector('.costoProdotto')
 	}
 
 	var elColonna = trg.querySelector('.idColonna')
